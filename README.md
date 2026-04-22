@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/banner.png" alt="Fan-out / Fan-in — Resonate example" />
+</p>
+
 # Fan-Out / Fan-In
 
 Parallel notification delivery with crash recovery. When an order is confirmed, notify the customer simultaneously through all four channels — email, SMS, Slack, and push notification. Total time equals the slowest channel, not the sum.
