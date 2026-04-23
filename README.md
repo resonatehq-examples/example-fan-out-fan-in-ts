@@ -145,21 +145,10 @@ example-fan-out-fan-in-ts/
 
 **Lines of code**: ~155 total, ~25 lines of workflow logic.
 
-## Comparison
+## One API for one or many
 
-Inngest's fan-out uses `step.run()` for each parallel branch with `Promise.all()`. Hatchet DAG requires declaring explicit edges between nodes. Temporal uses child workflows with separate registration per handler.
-
-Resonate's `beginRun()` is the same API whether you're running one thing or a hundred — no special "parallel" mode, no DAG declaration, no child workflow boilerplate.
-
-| | Resonate | Inngest | Temporal (child workflows) |
-|---|---|---|---|
-| Fan-out API | `beginRun()` | `step.run()` + `Promise.all()` | `executeChild()` + `Promise.all()` |
-| Fan-in API | `yield* future` | implicit | implicit |
-| Partial failure | Per-step checkpoint | Per-step retry | Child workflow retry |
-| Extra setup | None | Inngest server | Temporal server + worker registration |
+`beginRun()` is the same call whether you're running one branch or a hundred. There is no special "parallel" mode to flip, no DAG declaration, no child-workflow boilerplate. The fan-in is `yield* future` — awaiting the handle returned by `beginRun()` — and partial failure is handled per-step via the promise store: a branch that succeeded checkpoints its result; a branch that failed retries independently.
 
 ## Learn More
 
 - [Resonate documentation](https://docs.resonatehq.io)
-- [Inngest fan-out pattern](https://www.inngest.com/docs/guides/fan-out-jobs)
-- [Temporal child workflows](https://github.com/temporalio/samples-typescript/tree/main/child-workflows)
